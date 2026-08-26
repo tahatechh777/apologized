@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Yara 💜</title>
+    <meta name="description" content="A special birthday surprise for Yara Jamal">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Floating Particles Canvas -->
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+    <!-- Cursor Trail (Desktop) -->
+    <div id="cursor-trail" aria-hidden="true"></div>
+
+    <!-- Music Toggle -->
+    <button id="music-toggle" class="music-btn" aria-label="Toggle background music" title="Toggle Music">
+        <span class="music-icon">🎵</span>
+    </button>
+    <audio id="bg-music" loop preload="none">
+        <source src="audio/birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ==================== OPENING SCREEN ==================== -->
+    <section id="opening" class="opening" role="dialog" aria-label="Opening surprise">
+        <div class="opening-bg">
+            <div class="opening-glow"></div>
+            <div class="opening-stars" aria-hidden="true"></div>
+        </div>
+        <div class="opening-content">
+            <p class="opening-line opening-line-1">A little surprise for you...</p>
+            <h1 class="opening-name">Yara</h1>
+            <p class="opening-line opening-line-3">في شخص معيّن اليوم لازم يبتسم أكثر من أي يوم 💜</p>
+            <button id="open-btn" class="open-btn" aria-label="Open the surprise">
+                <span>افتحي المفاجأة ✨</span>
+            </button>
+        </div>
+        <div class="opening-hearts" aria-hidden="true"></div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main id="main-content" class="main-content hidden">
+
+        <!-- ===== HERO ===== -->
+        <section id="hero" class="hero" aria-label="Birthday greeting">
+            <div class="hero-bg">
+                <div class="hero-gradient"></div>
+                <div class="hero-glow"></div>
+            </div>
+            <div class="hero-content">
+                <p class="hero-subtitle animate-on-scroll">Happy Birthday,</p>
+                <h1 class="hero-name animate-on-scroll">Yara</h1>
+                <p class="hero-message animate-on-scroll">إلى شخص صار وجوده جزءًا جميلًا من أيامي...</p>
+                <div class="hero-date animate-on-scroll">
+                    <span>30</span>
+                    <span class="date-dot">•</span>
+                    <span>08</span>
+                    <span class="date-dot">•</span>
+                    <span>2026</span>
+                </div>
+                <div class="hero-cake animate-on-scroll">
+                    <div class="cake-container">
+                        <div class="cake-image" role="img" aria-label="Birthday cake">
+                            <img src="images/birthday-cake.png" alt="Birthday cake" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="cake-fallback" style="display:none;">
+                                <span class="cake-emoji">🎂</span>
+                            </div>
+                        </div>
+                        <div class="cake-decorations" aria-hidden="true">
+                            <span class="deco deco-1">🎈</span>
+                            <span class="deco deco-2">✨</span>
+                            <span class="deco deco-3">🎀</span>
+                            <span class="deco deco-4">💜</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator animate-on-scroll" aria-hidden="true">
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- ===== COUNTDOWN ===== -->
+        <section id="countdown" class="countdown section" aria-label="Birthday countdown">
+            <div class="section-bg">
+                <div class="countdown-glow"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">عدّ تنازلي 🎂</h2>
+                <div class="countdown-display animate-on-scroll" id="countdown-display">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-days">--</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-hours">--</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-minutes">--</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-seconds">--</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+                <div class="countdown-complete hidden" id="countdown-complete">
+                    <p>اليوم هو يومك يا Yara 💜</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BIRTHDAY CAKE SECTION ===== -->
+        <section id="cake-section" class="cake-section section" aria-label="Birthday cake interaction">
+            <div class="section-bg">
+                <div class="cake-section-glow"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">اليوم يومك 🎂</h2>
+                <div class="cake-interactive animate-on-scroll">
+                    <div class="cake-visual" id="cake-visual" role="img" aria-label="Birthday cake with candles">
+                        <div class="cake-display">
+                            <img src="images/birthday-cake.png" alt="Birthday cake" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="cake-fallback" style="display:none;">
+                                <span class="cake-emoji-large">🎂</span>
+                            </div>
+                        </div>
+                        <div class="candles-container" aria-hidden="true">
+                            <div class="candle"><div class="flame"></div></div>
+                            <div class="candle"><div class="flame"></div></div>
+                            <div class="candle"><div class="flame"></div></div>
+                            <div class="candle"><div class="flame"></div></div>
+                            <div class="candle"><div class="flame"></div></div>
+                        </div>
+                    </div>
+                    <button id="wish-btn" class="wish-btn" aria-label="Make a wish">
+                        تمني أمنية ✨
+                    </button>
+                    <div id="wish-message" class="wish-message hidden">
+                        <p>بتمنى تكون كل أمنياتك أقرب للتحقيق من أي وقت مضى. 💜</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== OUR STORY STARTED ===== -->
+        <section id="story" class="story section" aria-label="Our story">
+            <div class="section-bg">
+                <div class="story-glow"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">ومن هون بلشت الحكاية...</h2>
+                <div class="timeline">
+                    <div class="timeline-line" aria-hidden="true"></div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="30/04/2024">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">30 / 04 / 2024</span>
+                            <p class="timeline-text">أول لقاء لنا ✨</p>
+                            <p class="timeline-sub">ذكرى صغيرة ما بتننسى.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="22/05">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">22 / 05</span>
+                            <p class="timeline-text">يوم من الأيام اللي صار إلها مكان خاص بالذاكرة.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="27/05">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">27 / 05</span>
+                            <p class="timeline-text">لحظة بسيطة، بس مهمة.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="28/05">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">28 / 05</span>
+                            <p class="timeline-text">ذكرى صغيرة ما بتننسى.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="14/06">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">14 / 06</span>
+                            <p class="timeline-text">يوم من الأيام اللي صار إلها مكان خاص بالذاكرة.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="16/07">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">16 / 07</span>
+                            <p class="timeline-text">لحظة بسيطة، بس مهمة.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-date="24/07">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">24 / 07</span>
+                            <p class="timeline-text">ذكرى صغيرة ما بتننسى.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THINGS I APPRECIATE ===== -->
+        <section id="appreciation" class="appreciation section" aria-label="Things I appreciate about you">
+            <div class="section-bg">
+                <div class="appreciation-glow"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">أشياء بحبها فيكِ 💗</h2>
+                <div class="appreciation-grid">
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">💜</div>
+                        <p>قلبكِ الطيب</p>
+                    </div>
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">😊</div>
+                        <p>ضحكتكِ</p>
+                    </div>
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">💬</div>
+                        <p>طريقتكِ بالحكي</p>
+                    </div>
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">✨</div>
+                        <p>تفاصيلكِ الصغيرة</p>
+                    </div>
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">🌸</div>
+                        <p>روحكِ الحلوة</p>
+                    </div>
+                    <div class="appreciation-card animate-on-scroll">
+                        <div class="card-icon">🤝</div>
+                        <p>وجودكِ وقت أحتاجكِ</p>
+                    </div>
+                    <div class="appreciation-card appreciation-card-special animate-on-scroll">
+                        <div class="card-icon">💫</div>
+                        <p>والأهم...</p>
+                    </div>
+                    <div class="appreciation-card appreciation-card-final animate-on-scroll">
+                        <div class="card-icon">💗</div>
+                        <p>إنكِ أنتِ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== LITTLE THINGS ===== -->
+        <section id="little-things" class="little-things section" aria-label="Little things">
+            <div class="section-bg">
+                <div class="little-things-glow"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">الأشياء الصغيرة 🌟</h2>
+                <div class="floating-things" aria-hidden="true">
+                    <span class="floating-thing" style="--delay: 0s; --x: 10%; --y: 20%;">ضحكة</span>
+                    <span class="floating-thing" style="--delay: 0.5s; --x: 70%; --y: 15%;">تفصيل صغير</span>
+                    <span class="floating-thing" style="--delay: 1s; --x: 30%; --y: 60%;">كلمة حلوة</span>
+                    <span class="floating-thing" style="--delay: 1.5s; --x: 80%; --y: 50%;">صدفة</span>
+                    <span class="floating-thing" style="--delay: 2s; --x: 50%; --y: 80%;">ذكرى</span>
+                    <span class="floating-thing" style="--delay: 2.5s; --x: 15%; --y: 75%;">لحظة</span>
+                    <span class="floating-thing" style="--delay: 3s; --x: 60%; --y: 30%;">🎈</span>
+                    <span class="floating-thing" style="--delay: 3.5s; --x: 40%; --y: 40%;">💜</span>
+                    <span class="floating-thing" style="--delay: 4s; --x: 85%; --y: 70%;">✨</span>
+                    <span class="floating-thing" style="--delay: 4.5s; --x: 25%; --y: 45%;">🌸</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PERSONAL LETTER ===== -->
+        <section id="letter" class="letter section" aria-label="Personal letter">
+            <div class="section-bg">
+                <div class="letter-glow"></div>
+            </div>
+            <div class="container">
+                <div class="letter-paper animate-on-scroll">
+                    <h2 class="letter-title">إلى أطيب قلب وأصدق صديقة ❤️</h2>
+                    <div class="letter-body">
+                        <p class="letter-para animate-on-scroll">في يوم ميلادك يا غالية، أرسل لكِ كل كلمات الحب والامتنان.</p>
+                        <p class="letter-para animate-on-scroll">لأن وجودك في حياتي هو نعمة من الله لا تُقدّر بثمن.</p>
+                        <p class="letter-para animate-on-scroll">أنتِ الصديقة الحقيقية التي تمشي بجانبي عندما يبتعد الجميع، وتبقين سندي في الفرح والحزن، في الضيق والوسع، وفي كل مراحل العمر.</p>
+                        <p class="letter-para animate-on-scroll">أدعو الله أن يكون هذا العام بداية خير وبركة لكِ، وأن يفتح أمامكِ أبواب النجاح والتوفيق، ويحقق لكِ كل ما تتمنين وتطمحين إليه.</p>
+                        <p class="letter-para animate-on-scroll">أسأل الله أن يرزقكِ سعادةً لا تنتهي، وأن يقرّبك منه أكثر، ويجعلكِ من أحبّ عباده إليه.</p>
+                        <p class="letter-para animate-on-scroll">وأن يجعل أيامكِ القادمة أجمل من كل ما مضى، مليئة بالرضا والفرح والطمأنينة.</p>
+                    </div>
+                    <div class="letter-signature animate-on-scroll">
+                        <span>💜</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECRET MESSAGE ===== -->
+        <section id="secret" class="secret section" aria-label="Secret message">
+            <div class="section-bg">
+                <div class="secret-glow"></div>
+            </div>
+            <div class="container">
+                <div class="secret-content animate-on-scroll">
+                    <p class="secret-text">بس...<br>لسه في شغلة صغيرة مخبيها إلك.</p>
+                    <button id="secret-btn" class="secret-btn" aria-label="Open the secret gift">
+                        افتحيها 🎁
+                    </button>
+                </div>
+                <div id="secret-reveal" class="secret-reveal hidden">
+                    <div class="secret-overlay" aria-hidden="true"></div>
+                    <div class="secret-message">
+                        <p class="secret-final animate-on-scroll">يمكن ما بقدر أختصر كل شيء بكلمتين...</p>
+                        <p class="secret-final animate-on-scroll">بس بقدر أقول إنكِ من الأشخاص<br>اللي وجودهم بيخلّي الحياة ألطف.</p>
+                        <p class="secret-final animate-on-scroll">ومهما تغيّرت الأيام،<br>رح تضلّي شخص إلو مكان خاص جدًا عندي.</p>
+                        <p class="secret-final secret-birthday animate-on-scroll">Happy Birthday, Yara. 💜</p>
+                        <p class="secret-final secret-from animate-on-scroll">من شخص محظوظ إنه عرفك</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FINAL FOOTER ===== -->
+        <footer class="footer" aria-label="Birthday footer">
+            <div class="footer-content">
+                <p class="footer-text">Happy Birthday, Yara 💜</p>
+                <p class="footer-sub">30 • 08 • 2026</p>
+                <div class="footer-hearts" aria-hidden="true">
+                    <span>💜</span>
+                    <span>💗</span>
+                    <span>💜</span>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
