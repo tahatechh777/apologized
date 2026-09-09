@@ -1,29 +1,32 @@
 /* ============================================================
    APOLOGY WEBSITE FOR YARA — style.css
-   Modern, elegant, warm design with soft pastels and
-   red/purple heart accents.
+   Modern, vibrant, high-end romantic design with colorful 
+   gradients, floral corner accents, glowing glassmorphism, 
+   and subtle depth animations.
    ============================================================ */
 
 /* ---------- CSS Custom Properties ---------- */
 :root {
-  /* Palette */
-  --color-bg:          #fdf8f6;
-  --color-bg-warm:     #fef5f0;
-  --color-bg-lavender: #f6f0fa;
-  --color-bg-pink:     #fef0f5;
-  --color-bg-cream:    #fff9f3;
-  --color-text:        #3a2d3f;
-  --color-text-light:  #6b5c73;
-  --color-text-muted:  #9a8ba2;
-  --color-heart-red:   #e74c6f;
-  --color-heart-purple:#9b6dff;
-  --color-heart-pink:  #d97fbf;
-  --color-accent:      #c084fc;
-  --color-accent-soft: #ddd0f5;
+  /* Vibrant Romantic Palette */
+  --color-bg:          #fff5f8;
+  --color-bg-warm:     #fdeef4;
+  --color-bg-lavender: #f3e8ff;
+  --color-bg-pink:     #fce7f3;
+  --color-bg-cream:    #fff8f6;
+  --color-text:        #2d1b36;
+  --color-text-light:  #5c4366;
+  --color-text-muted:  #8b6f99;
+  --color-heart-red:   #f43f5e;
+  --color-heart-purple:#8b5cf6;
+  --color-heart-pink:  #ec4899;
+  --color-accent:      #d8b4fe;
+  --color-accent-soft: #ede9fe;
   --color-white:       #ffffff;
-  --color-card-bg:     rgba(255, 255, 255, 0.75);
-  --color-card-border: rgba(155, 109, 255, 0.12);
-  --color-shadow:      rgba(58, 45, 63, 0.06);
+  
+  /* Vibrant Glassmorphism */
+  --color-card-bg:     rgba(255, 255, 255, 0.72);
+  --color-card-border: rgba(236, 72, 153, 0.22);
+  --color-shadow:      rgba(139, 92, 246, 0.12);
 
   /* Typography */
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -51,11 +54,47 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--color-text);
-  background: var(--color-bg);
+  /* Full Background Color & Subtle Floral Glow */
+  background: 
+    radial-gradient(circle at 5% 10%, rgba(244, 63, 94, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 95% 90%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+    linear-gradient(135deg, #fff0f5 0%, #f5e8ff 50%, #ffeef2 100%);
+  background-attachment: fixed;
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Floral Corner Accents ---------- */
+body::before,
+body::after {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  opacity: 0.75;
+  filter: drop-shadow(0 4px 10px rgba(236, 72, 153, 0.3));
+}
+
+body::before {
+  content: "🌸🌹";
+  top: 15px;
+  left: 15px;
+  animation: floatFloral 6s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: "🌺✨";
+  bottom: 20px;
+  right: 20px;
+  animation: floatFloral 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatFloral {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(8deg); }
 }
 
 /* ---------- Utility ---------- */
@@ -74,10 +113,11 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  height: 4px;
+  height: 5px;
   width: 0%;
-  background: linear-gradient(90deg, var(--color-heart-purple), var(--color-heart-pink), var(--color-heart-red));
+  background: linear-gradient(90deg, #f43f5e, #ec4899, #8b5cf6, #3b82f6);
   z-index: 1000;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
   transition: width 0.1s linear;
 }
 
@@ -86,26 +126,26 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: var(--color-card-bg);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--color-card-border);
-  box-shadow: 0 4px 15px var(--color-shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   cursor: pointer;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.3rem;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .music-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(155, 109, 255, 0.2);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35);
 }
 
 .music-btn.playing .music-icon {
@@ -117,14 +157,8 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ---------- Floating Hearts Canvas & Layer ---------- */
-.heart-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* ---------- Floating Hearts & Flowers Canvas ---------- */
+.heart-canvas,
 .floating-hearts {
   position: fixed;
   inset: 0;
@@ -136,25 +170,26 @@ body {
 .floating-heart {
   position: absolute;
   bottom: -60px;
-  font-size: 18px;
+  font-size: 20px;
   opacity: 0;
   animation: floatUp linear infinite;
   will-change: transform, opacity;
+  filter: drop-shadow(0 2px 5px rgba(244, 63, 94, 0.3));
 }
 
 @keyframes floatUp {
   0% {
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) rotate(0deg) scale(0.8);
     opacity: 0;
   }
-  10% {
-    opacity: 0.45;
+  15% {
+    opacity: 0.7;
   }
   85% {
-    opacity: 0.3;
+    opacity: 0.5;
   }
   100% {
-    transform: translateY(-110vh) rotate(360deg) scale(0.6);
+    transform: translateY(-110vh) rotate(360deg) scale(1.1);
     opacity: 0;
   }
 }
@@ -175,10 +210,10 @@ body {
    ============================================================ */
 .landing {
   background: linear-gradient(
-    170deg,
-    var(--color-bg) 0%,
-    var(--color-bg-lavender) 40%,
-    var(--color-bg-pink) 100%
+    160deg,
+    rgba(255, 240, 245, 0.8) 0%,
+    rgba(243, 232, 255, 0.85) 50%,
+    rgba(252, 231, 243, 0.9) 100%
   );
   text-align: center;
   flex-direction: column;
@@ -186,21 +221,25 @@ body {
 
 .landing-content {
   max-width: 600px;
+  position: relative;
 }
 
 .greeting h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 7vw, 4rem);
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: clamp(2.6rem, 7.5vw, 4.3rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #2d1b36 20%, #be185d 60%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 24px;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .wave {
   display: inline-block;
   animation: wave 2.4s ease-in-out infinite;
   transform-origin: 70% 70%;
+  -webkit-text-fill-color: initial;
 }
 
 @keyframes wave {
@@ -213,45 +252,46 @@ body {
 .heart-accent {
   display: inline-block;
   animation: pulse 1.8s ease-in-out infinite;
+  -webkit-text-fill-color: initial;
 }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  50% { transform: scale(1.2); }
 }
 
 .subtitle {
-  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-size: clamp(1.15rem, 3.2vw, 1.4rem);
   color: var(--color-text-light);
   margin-bottom: 12px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .subtitle-small {
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
   color: var(--color-text-muted);
   margin-bottom: 40px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* CTA Button */
 .cta-button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 16px 36px;
+  gap: 10px;
+  padding: 18px 40px;
   border: none;
   border-radius: 50px;
-  background: linear-gradient(135deg, var(--color-heart-purple), var(--color-heart-pink));
+  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #8b5cf6 100%);
   color: var(--color-white);
   font-family: var(--font-body);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow:
-    0 4px 20px rgba(155, 109, 255, 0.25),
-    0 2px 8px rgba(217, 127, 191, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    0 10px 25px rgba(244, 63, 94, 0.35),
+    0 4px 12px rgba(139, 92, 246, 0.25);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
@@ -260,17 +300,17 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .cta-button:hover,
 .cta-button:focus-visible {
-  transform: translateY(-2px) scale(1.03);
+  transform: translateY(-3px) scale(1.04);
   box-shadow:
-    0 8px 30px rgba(155, 109, 255, 0.35),
-    0 4px 12px rgba(217, 127, 191, 0.2);
+    0 14px 35px rgba(244, 63, 94, 0.45),
+    0 6px 18px rgba(139, 92, 246, 0.35);
   outline: none;
 }
 
@@ -284,7 +324,7 @@ body {
 }
 
 .cta-button.secondary {
-  background: linear-gradient(135deg, var(--color-heart-purple), #b07be8);
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
   margin-top: 48px;
 }
 
@@ -297,28 +337,35 @@ body {
 }
 
 .scroll-arrow {
-  width: 24px;
-  height: 24px;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
+  width: 26px;
+  height: 26px;
+  border-right: 3px solid var(--color-heart-pink);
+  border-bottom: 3px solid var(--color-heart-pink);
   transform: rotate(45deg);
   animation: scrollBounce 2s ease-in-out infinite;
+  border-radius: 2px;
 }
 
 @keyframes scrollBounce {
-  0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.4; }
-  50% { transform: rotate(45deg) translate(6px, 6px); opacity: 1; }
+  0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+  50% { transform: rotate(45deg) translate(7px, 7px); opacity: 1; }
 }
 
 /* ============================================================
    SECTION 2 — THE APOLOGY
    ============================================================ */
 .apology {
-  background: var(--color-bg);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
 }
 
 .apology .container {
   text-align: center;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  padding: 50px 36px;
+  border-radius: 28px;
+  box-shadow: 0 10px 40px var(--color-shadow);
 }
 
 .apology-lines {
@@ -328,19 +375,19 @@ body {
 }
 
 .apology-line {
-  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+  font-size: clamp(1.1rem, 2.9vw, 1.3rem);
   color: var(--color-text-light);
-  line-height: 1.8;
+  line-height: 1.85;
 }
 
 .apology-line.highlight-text {
-  font-size: clamp(1.15rem, 3vw, 1.35rem);
+  font-size: clamp(1.2rem, 3.2vw, 1.4rem);
   color: var(--color-heart-red);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .apology-line.emphasis {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
 }
 
@@ -350,66 +397,78 @@ body {
 .cards-section {
   background: linear-gradient(
     180deg,
-    var(--color-bg-lavender) 0%,
-    var(--color-bg) 100%
+    rgba(243, 232, 255, 0.6) 0%,
+    rgba(252, 231, 243, 0.6) 100%
   );
   flex-direction: column;
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.6rem, 4.2vw, 2.2rem);
   text-align: center;
   margin-bottom: 48px;
   color: var(--color-text);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .cards-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  max-width: 700px;
+  max-width: 750px;
   margin: 0 auto;
 }
 
 .card {
   background: var(--color-card-bg);
   border: 1px solid var(--color-card-border);
-  border-radius: 20px;
-  padding: 36px 28px;
+  border-radius: 24px;
+  padding: 40px 30px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow:
-    0 4px 24px var(--color-shadow),
-    0 1px 3px rgba(155, 109, 255, 0.04);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+    0 8px 30px var(--color-shadow),
+    0 2px 8px rgba(236, 72, 153, 0.08);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "🌸";
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 1.2rem;
+  opacity: 0.5;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(236, 72, 153, 0.4);
   box-shadow:
-    0 12px 40px rgba(155, 109, 255, 0.12),
-    0 4px 12px var(--color-shadow);
+    0 16px 45px rgba(236, 72, 153, 0.2),
+    0 4px 16px var(--color-shadow);
 }
 
 .card-icon {
-  font-size: 2.4rem;
+  font-size: 2.8rem;
   margin-bottom: 16px;
   line-height: 1;
 }
 
 .card-title {
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--color-text);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .card-text {
-  font-size: 1rem;
-  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  color: var(--color-text-light);
   font-weight: 400;
 }
 
@@ -417,11 +476,16 @@ body {
    SECTION 4 — PERSONAL MESSAGE
    ============================================================ */
 .personal-message {
-  background: var(--color-bg-cream);
+  background: linear-gradient(135deg, rgba(255,248,246,0.8), rgba(253,238,244,0.8));
 }
 
 .personal-message .container {
   text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--color-card-border);
+  padding: 48px 36px;
+  border-radius: 28px;
+  box-shadow: 0 10px 35px var(--color-shadow);
 }
 
 .message-lines {
@@ -431,16 +495,17 @@ body {
 }
 
 .message-line {
-  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-size: clamp(1.1rem, 2.9vw, 1.25rem);
   color: var(--color-text-light);
-  line-height: 1.8;
+  line-height: 1.85;
 }
 
 .message-line.gentle-emphasis {
   font-style: italic;
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 3vw, 1.3rem);
+  font-size: clamp(1.2rem, 3.2vw, 1.4rem);
   color: var(--color-heart-purple);
+  font-weight: 600;
 }
 
 /* ============================================================
@@ -449,24 +514,24 @@ body {
 .final-apology {
   background: linear-gradient(
     160deg,
-    var(--color-bg-cream) 0%,
-    var(--color-bg-pink) 35%,
-    var(--color-bg-lavender) 100%
+    rgba(255, 248, 246, 0.85) 0%,
+    rgba(252, 231, 243, 0.85) 40%,
+    rgba(243, 232, 255, 0.85) 100%
   );
   flex-direction: column;
 }
 
 .final-content {
   text-align: center;
-  max-width: 620px;
+  max-width: 640px;
 }
 
 .final-title {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-size: clamp(1.9rem, 5.2vw, 2.8rem);
   color: var(--color-text);
   margin-bottom: 40px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.3;
 }
 
@@ -479,20 +544,20 @@ body {
 }
 
 .final-line {
-  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-size: clamp(1.1rem, 2.9vw, 1.25rem);
   color: var(--color-text-light);
-  line-height: 1.8;
+  line-height: 1.85;
 }
 
 .final-line.emphasis {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
 }
 
 .final-line.final-statement {
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-size: clamp(1.2rem, 3.2vw, 1.4rem);
   color: var(--color-heart-purple);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* ============================================================
@@ -501,8 +566,8 @@ body {
 .interactive-ending {
   background: linear-gradient(
     180deg,
-    var(--color-bg) 0%,
-    var(--color-bg-lavender) 100%
+    rgba(255, 245, 248, 0.9) 0%,
+    rgba(243, 232, 255, 0.9) 100%
   );
   flex-direction: column;
 }
@@ -513,25 +578,25 @@ body {
 
 .ending-prompt {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-size: clamp(1.5rem, 4.2vw, 2.2rem);
   color: var(--color-text);
   margin-bottom: 40px;
+  font-weight: 700;
 }
 
 .buttons-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
   justify-content: center;
   position: relative;
   min-height: 64px;
 }
 
 .mad-button {
-  background: linear-gradient(135deg, #b0b0b0, #8e8e9a);
+  background: linear-gradient(135deg, #94a3b8, #64748b);
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.04);
+    0 6px 20px rgba(100, 116, 139, 0.25);
   position: relative;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.3s ease,
@@ -551,19 +616,25 @@ body {
 .thank-you-inner {
   position: relative;
   display: inline-block;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--color-heart-pink);
+  padding: 36px 28px;
+  border-radius: 24px;
+  box-shadow: 0 10px 35px rgba(236, 72, 153, 0.25);
 }
 
 .thank-you-title {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-size: clamp(2rem, 5.5vw, 3rem);
   color: var(--color-heart-red);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
 .thank-you-subtitle {
-  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
   color: var(--color-text-light);
+  font-weight: 500;
 }
 
 /* Confetti */
@@ -592,7 +663,7 @@ body {
     opacity: 1;
   }
   80% {
-    opacity: 0.8;
+    opacity: 0.85;
   }
   100% {
     transform: translateY(100vh) rotate(720deg) scale(0.3);
@@ -627,13 +698,13 @@ body {
   z-index: 1;
   text-align: center;
   padding: 32px 20px 40px;
-  background: var(--color-bg);
+  background: rgba(255, 245, 248, 0.6);
 }
 
 .site-footer p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* ============================================================
@@ -697,13 +768,13 @@ body {
    ============================================================ */
 @media (min-width: 1024px) {
   .greeting h1 {
-    font-size: 4.2rem;
+    font-size: 4.5rem;
   }
 
   .apology-line,
   .message-line,
   .final-line {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
   }
 }
 
