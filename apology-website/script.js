@@ -64,52 +64,49 @@ document.addEventListener('click', (event) => {
 });
 
 /* ------------------------------------------------
-   3. Background Music Control (Autoplay + Toggle)
+   3. Background Music Control
    ------------------------------------------------ */
 (function setupMusicPlayer() {
-  const musicBtn = document.getElementById('music-btn') || document.getElementById('musicToggle');
-  const bgMusic = document.getElementById('bg-music') || document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('music-btn');
+  const bgMusic = document.getElementById('bg-music');
 
   if (!bgMusic) return;
 
-  let isPlaying = false;
-
-  const playMusic = () => {
+  function playAudio() {
     bgMusic.play().then(() => {
-      isPlaying = true;
       if (musicBtn) musicBtn.classList.add('playing');
     }).catch(err => {
-      console.log('Autoplay prevented by browser:', err);
-      isPlaying = false;
-      if (musicBtn) musicBtn.classList.remove('playing');
+      console.log('Audio playback prevented:', err);
     });
-  };
+  }
 
-  // محاولة التشغيل عند أول تفاعل حقيقي للمستخدم لفك حظر المتصفح
-  const startPlayOnUserAction = () => {
-    if (bgMusic.paused) {
-      playMusic();
-    }
-  };
+  function pauseAudio() {
+    bgMusic.pause();
+    if (musicBtn) musicBtn.classList.remove('playing');
+  }
 
-  document.addEventListener('click', startPlayOnUserAction, { once: true });
-  document.addEventListener('touchstart', startPlayOnUserAction, { once: true });
-
-  // التحكم بالزر (تشغيل وإيقاف)
+  // تشغيل وإيقاف بواسطة الزر Floating Button
   if (musicBtn) {
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (isPlaying) {
-        bgMusic.pause();
-        musicBtn.classList.remove('playing');
-        isPlaying = false;
+      if (bgMusic.paused) {
+        playAudio();
       } else {
-        playMusic();
+        pauseAudio();
       }
     });
   }
-})();
 
+  // تشغيل الصوت فور اضغط المستخدم على أول زر في الصفحة "Click here"
+  const startBtn = document.getElementById('startButton');
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        playAudio();
+      }
+    }, { once: true });
+  }
+})();
 /* ------------------------------------------------
    4. Scroll reveal animations (IntersectionObserver)
    ------------------------------------------------ */
