@@ -228,18 +228,30 @@ body::after {
   font-family: var(--font-display);
   font-size: clamp(2.6rem, 7.5vw, 4.3rem);
   font-weight: 700;
-  background: linear-gradient(135deg, #2d1b36 20%, #be185d 60%, #7c3aed 100%);
+  color: #8b284e;
+  background: linear-gradient(135deg, #be185d 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 24px;
   line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* إصلاح التضارب مع الإيموجي والعناصر الفرعية داخل العنوان */
+.greeting h1 span,
+.wave,
+.heart-accent {
+  -webkit-text-fill-color: initial !important;
+  display: inline-block;
 }
 
 .wave {
-  display: inline-block;
   animation: wave 2.4s ease-in-out infinite;
   transform-origin: 70% 70%;
-  -webkit-text-fill-color: initial;
 }
 
 @keyframes wave {
@@ -250,9 +262,7 @@ body::after {
 }
 
 .heart-accent {
-  display: inline-block;
   animation: pulse 1.8s ease-in-out infinite;
-  -webkit-text-fill-color: initial;
 }
 
 @keyframes pulse {

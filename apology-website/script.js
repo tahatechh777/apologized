@@ -64,29 +64,53 @@ document.addEventListener('click', (event) => {
 });
 
 /* ------------------------------------------------
-   3. Background Music Toggle
+   3. Background Music Control (Autoplay + Toggle)
    ------------------------------------------------ */
 (function setupMusicPlayer() {
-  const musicToggle = document.getElementById('musicToggle');
-  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('music-btn') || document.getElementById('musicToggle');
+  const bgMusic = document.getElementById('bg-music') || document.getElementById('bgMusic');
 
-  if (!musicToggle || !bgMusic) return;
+  if (!bgMusic) return;
 
   let isPlaying = false;
 
-  musicToggle.addEventListener('click', () => {
-    if (isPlaying) {
-      bgMusic.pause();
-      musicToggle.classList.remove('playing');
-    } else {
-      bgMusic.play().then(() => {
-        musicToggle.classList.add('playing');
-      }).catch(err => {
-        console.log('Autoplay prevented:', err);
-      });
+  const playMusic = () => {
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      if (musicBtn) musicBtn.classList.add('playing');
+    }).catch(err => {
+      console.log('Autoplay prevented by browser:', err);
+      isPlaying = false;
+      if (musicBtn) musicBtn.classList.remove('playing');
+    });
+  };
+
+  // محاولة التشغيل التلقائي عند فتح الصفحة
+  playMusic();
+
+  // تشغيل الموسيقى عند أوّل ضغطة للمستخدم لتجاوز قيود المتصفحات
+  const startPlayOnUserAction = () => {
+    if (bgMusic.paused) {
+      playMusic();
     }
-    isPlaying = !isPlaying;
-  });
+  };
+
+  document.addEventListener('click', startPlayOnUserAction, { once: true });
+  document.addEventListener('touchstart', startPlayOnUserAction, { once: true });
+
+  // التحكم بالزر (تشغيل وإيقاف)
+  if (musicBtn) {
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.classList.remove('playing');
+        isPlaying = false;
+      } else {
+        playMusic();
+      }
+    });
+  }
 })();
 
 /* ------------------------------------------------
