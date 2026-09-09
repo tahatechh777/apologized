@@ -12,13 +12,13 @@
 </head>
 <body>
 
-  <!-- Floating Music Button -->
-  <button id="music-btn" class="music-btn playing" aria-label="Toggle Music">
+  <!-- Floating Music Button (تم تعديله لإزالة class 'playing' الافتراضي ليتزامن مع تشغيل الصوت) -->
+  <button id="music-btn" class="music-btn" aria-label="Toggle Music">
     <span class="music-icon">🎵</span>
   </button>
 
-  <!-- Audio Element (مسار ملف الصوت بداخل مجلد audio) -->
-  <audio id="bg-music" loop src="audio/music.mp3"></audio>
+  <!-- Audio Element (تم تحسينه وتجهيزه للتشغيل) -->
+  <audio id="bg-music" loop src="audio/Dave - Raindance (ft. Tems).mp3" preload="auto"></audio>
 
   <!-- Reading Progress Bar -->
   <div class="scroll-progress-bar" id="progressBar"></div>

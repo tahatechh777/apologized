@@ -85,10 +85,7 @@ document.addEventListener('click', (event) => {
     });
   };
 
-  // محاولة التشغيل التلقائي عند فتح الصفحة
-  playMusic();
-
-  // تشغيل الموسيقى عند أوّل ضغطة للمستخدم لتجاوز قيود المتصفحات
+  // محاولة التشغيل عند أول تفاعل حقيقي للمستخدم لفك حظر المتصفح
   const startPlayOnUserAction = () => {
     if (bgMusic.paused) {
       playMusic();
