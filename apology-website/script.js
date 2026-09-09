@@ -64,19 +64,23 @@ document.addEventListener('click', (event) => {
 });
 
 /* ------------------------------------------------
-   3. Background Music Control
+   3. Background Music Control (Robust Autoplay Fix)
    ------------------------------------------------ */
 (function setupMusicPlayer() {
   const musicBtn = document.getElementById('music-btn');
   const bgMusic = document.getElementById('bg-music');
 
-  if (!bgMusic) return;
+  if (!bgMusic) {
+    console.error('Audio element #bg-music not found!');
+    return;
+  }
 
   function playAudio() {
     bgMusic.play().then(() => {
+      console.log('Audio playing successfully!');
       if (musicBtn) musicBtn.classList.add('playing');
     }).catch(err => {
-      console.log('Audio playback prevented:', err);
+      console.warn('Audio play error:', err.message);
     });
   }
 
@@ -85,7 +89,7 @@ document.addEventListener('click', (event) => {
     if (musicBtn) musicBtn.classList.remove('playing');
   }
 
-  // تشغيل وإيقاف بواسطة الزر Floating Button
+  // التحكم عبر الزر العائم
   if (musicBtn) {
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -97,15 +101,15 @@ document.addEventListener('click', (event) => {
     });
   }
 
-  // تشغيل الصوت فور اضغط المستخدم على أول زر في الصفحة "Click here"
-  const startBtn = document.getElementById('startButton');
-  if (startBtn) {
-    startBtn.addEventListener('click', () => {
-      if (bgMusic.paused) {
-        playAudio();
-      }
-    }, { once: true });
-  }
+  // تشغيل الصوت فور نسيان المستخدم أو ضغطه على أي مكان بالصفحة / الزر الأول
+  const enableAudioOnInteraction = () => {
+    if (bgMusic.paused) {
+      playAudio();
+    }
+  };
+
+  document.addEventListener('click', enableAudioOnInteraction, { once: true });
+  document.addEventListener('touchstart', enableAudioOnInteraction, { once: true });
 })();
 /* ------------------------------------------------
    4. Scroll reveal animations (IntersectionObserver)
