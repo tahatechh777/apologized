@@ -12,8 +12,22 @@
 </head>
 <body>
 
-  <!-- Floating hearts background layer -->
+  <!-- Reading Progress Bar -->
+  <div class="scroll-progress-bar" id="progressBar"></div>
+
+  <!-- Background Canvas for Interactive Particles/Hearts -->
+  <canvas id="heartCanvas" class="heart-canvas" aria-hidden="true"></canvas>
+
+  <!-- Background Floating Hearts Overlay -->
   <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+  <!-- Background Music Toggle Button -->
+  <button id="musicToggle" class="music-btn" aria-label="Toggle background music" title="Toggle Music">
+    <span class="music-icon">🎵</span>
+  </button>
+  <audio id="bgMusic" loop preload="none">
+    <source src="audio/soft-apology.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- ===================== SECTION 1 — LANDING ===================== -->
   <section class="section landing" id="landing">
@@ -170,6 +184,7 @@
         <div class="still-mad-message hidden" id="stillMadMessage">
           <p>Okay okay... I get it <span>&#x1F62D;</span></p>
           <p>But I'm still sorry <span>&#x2764;&#xFE0F;</span></p>
+          <button class="cta-button secondary retry-button" id="retryButton">Let me try again 🥺</button>
         </div>
       </div>
     </div>

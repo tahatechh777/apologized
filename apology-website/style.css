@@ -69,7 +69,62 @@ body {
   padding: 0 clamp(20px, 5vw, 40px);
 }
 
-/* ---------- Floating Hearts Background ---------- */
+/* ---------- Scroll Progress Bar ---------- */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-heart-purple), var(--color-heart-pink), var(--color-heart-red));
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ---------- Floating Music Button ---------- */
+.music-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 4px 15px var(--color-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(155, 109, 255, 0.2);
+}
+
+.music-btn.playing .music-icon {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Floating Hearts Canvas & Layer ---------- */
+.heart-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .floating-hearts {
   position: fixed;
   inset: 0;
@@ -545,7 +600,7 @@ body {
   }
 }
 
-/* Still mad message */
+/* Still mad message & retry button */
 .still-mad-message {
   margin-top: 36px;
   animation: fadeInUp 0.6s ease forwards;
@@ -554,8 +609,14 @@ body {
 .still-mad-message p {
   font-size: clamp(1.1rem, 3vw, 1.3rem);
   color: var(--color-text-light);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   line-height: 1.8;
+}
+
+.retry-button {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  padding: 12px 28px;
 }
 
 /* ============================================================

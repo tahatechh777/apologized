@@ -1,7 +1,7 @@
 /* ============================================================
    APOLOGY WEBSITE FOR YARA — script.js
    Modern vanilla JavaScript for scroll animations,
-   floating hearts, confetti, and the playful moving button.
+   floating hearts, confetti, music control, and playful elements.
    ============================================================ */
 
 'use strict';
@@ -13,7 +13,6 @@
   const container = document.getElementById('floatingHearts');
   if (!container) return;
 
-  // Reduce number of hearts on small screens for better performance
   const isMobile = window.matchMedia('(max-width: 600px)').matches;
   const count = isMobile ? 10 : 16;
   const hearts = ['❤️', '💜', '💗', '💜', '🩷'];
@@ -23,7 +22,6 @@
     heart.className = 'floating-heart';
     heart.textContent = hearts[i % hearts.length];
 
-    // Randomize position, size, duration and delay
     const size = 12 + Math.random() * 18;
     const duration = 12 + Math.random() * 14;
     const delay = Math.random() * 14;
@@ -39,30 +37,67 @@
 })();
 
 /* ------------------------------------------------
-   2. Smooth scrolling buttons
+   2. Reading progress bar & Smooth scrolling
    ------------------------------------------------ */
+window.addEventListener('scroll', () => {
+  const progressBar = document.getElementById('progressBar');
+  if (!progressBar) return;
+
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (totalHeight > 0) {
+    const progress = (window.scrollY / totalHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  }
+});
+
 document.addEventListener('click', (event) => {
   const startButton = document.getElementById('startButton');
   const keepReadingButton = document.getElementById('keepReadingButton');
 
   if (event.target.closest('#startButton')) {
-    startButton.blur();
-    document.getElementById('apology').scrollIntoView({ behavior: 'smooth' });
+    if (startButton) startButton.blur();
+    document.getElementById('apology')?.scrollIntoView({ behavior: 'smooth' });
   } else if (event.target.closest('#keepReadingButton')) {
-    keepReadingButton.blur();
-    document.getElementById('cards').scrollIntoView({ behavior: 'smooth' });
+    if (keepReadingButton) keepReadingButton.blur();
+    document.getElementById('cards')?.scrollIntoView({ behavior: 'smooth' });
   }
 });
 
 /* ------------------------------------------------
-   3. Scroll reveal animations (IntersectionObserver)
+   3. Background Music Toggle
+   ------------------------------------------------ */
+(function setupMusicPlayer() {
+  const musicToggle = document.getElementById('musicToggle');
+  const bgMusic = document.getElementById('bgMusic');
+
+  if (!musicToggle || !bgMusic) return;
+
+  let isPlaying = false;
+
+  musicToggle.addEventListener('click', () => {
+    if (isPlaying) {
+      bgMusic.pause();
+      musicToggle.classList.remove('playing');
+    } else {
+      bgMusic.play().then(() => {
+        musicToggle.classList.add('playing');
+      }).catch(err => {
+        console.log('Autoplay prevented:', err);
+      });
+    }
+    isPlaying = !isPlaying;
+  });
+})();
+
+/* ------------------------------------------------
+   4. Scroll reveal animations (IntersectionObserver)
    ------------------------------------------------ */
 const revealObserver = new IntersectionObserver(
   (entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
-        observer.unobserve(entry.target); // Reveal only once
+        observer.unobserve(entry.target);
       }
     });
   },
@@ -77,24 +112,15 @@ document
   .forEach((el) => revealObserver.observe(el));
 
 /* ------------------------------------------------
-   4. Confetti pieces for the "I forgive you" button
+   5. Confetti pieces for the "I forgive you" button
    ------------------------------------------------ */
 function launchConfetti() {
   const container = document.getElementById('confettiContainer');
   if (!container) return;
 
-  // Remove any previous pieces
   container.innerHTML = '';
 
-  const colors = [
-    '#e74c6f', // red
-    '#9b6dff', // purple
-    '#d97fbf', // pink
-    '#c084fc', // lavender
-    '#ff8fab', // soft coral
-    '#7c7cff', // soft blue-purple
-  ];
-
+  const colors = ['#e74c6f', '#9b6dff', '#d97fbf', '#c084fc', '#ff8fab', '#7c7cff'];
   const pieceCount = 60;
 
   for (let i = 0; i < pieceCount; i++) {
@@ -118,24 +144,27 @@ function launchConfetti() {
     container.appendChild(piece);
   }
 
-  // Clean up after animation finishes
   setTimeout(() => {
     container.innerHTML = '';
   }, 6000);
 }
 
 /* ------------------------------------------------
-   5. "I forgive you" button → thank-you message
+   6. "I forgive you" button & Retry fallback
    ------------------------------------------------ */
 function showThankYouMessage() {
   const message = document.getElementById('thankYouMessage');
+  const stillMadMessage = document.getElementById('stillMadMessage');
+  const buttonsWrapper = document.getElementById('buttonsWrapper');
+
   if (!message) return;
+
+  if (stillMadMessage) stillMadMessage.classList.add('hidden');
+  if (buttonsWrapper) buttonsWrapper.classList.add('hidden');
 
   message.classList.remove('hidden');
   message.scrollIntoView({ behavior: 'smooth', block: 'center' });
   launchConfetti();
-
-  // Gentle heart burst delivered as emoji rain from message position
   burstHearts();
 }
 
@@ -144,7 +173,22 @@ if (forgiveButton) {
   forgiveButton.addEventListener('click', showThankYouMessage);
 }
 
-/* Heart burst — a few hearts that pop upward near the message */
+const retryButton = document.getElementById('retryButton');
+if (retryButton) {
+  retryButton.addEventListener('click', () => {
+    const stillMadMessage = document.getElementById('stillMadMessage');
+    const madButton = document.getElementById('madButton');
+    
+    if (stillMadMessage) stillMadMessage.classList.add('hidden');
+    if (madButton) {
+      madButton.style.position = '';
+      madButton.style.left = '';
+      madButton.style.top = '';
+      madButton.style.transform = '';
+    }
+  });
+}
+
 function burstHearts() {
   const message = document.getElementById('thankYouMessage');
   if (!message) return;
@@ -165,7 +209,6 @@ function burstHearts() {
     h.style.opacity = '0';
     document.body.appendChild(h);
 
-    // Animate outward using Web Animations API
     const angle = Math.random() * Math.PI * 2;
     const distance = 90 + Math.random() * 110;
     const dx = Math.cos(angle) * distance;
@@ -179,31 +222,27 @@ function burstHearts() {
       { duration: 1200 + Math.random() * 600, easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)' }
     );
 
-    // Remove element after animation completes
     setTimeout(() => h.remove(), 1800);
   }
 }
 
 /* ------------------------------------------------
-   6. Playful moving "Still mad" button
+   7. Playful moving "Still mad" button
    ------------------------------------------------ */
 (function setupMoveAwayButton() {
   const madButton = document.getElementById('madButton');
-
   if (!madButton) return;
 
   const wrapper = document.getElementById('buttonsWrapper');
   let attempts = 0;
   const maxAttempts = 6;
+
   const revealedFallback = () => {
     const fallbackMsg = document.getElementById('stillMadMessage');
     if (fallbackMsg) fallbackMsg.classList.remove('hidden');
   };
 
-  /* Determine the safe area to move the button within.
-     We keep it inside the wrapper area but nudge it around,
-     staying within the viewport at all times. */
-  function moveAway(event) {
+  function moveAway() {
     attempts += 1;
 
     if (attempts >= maxAttempts) {
@@ -216,10 +255,8 @@ function burstHearts() {
     const btnW = btnRect.width;
     const btnH = btnRect.height;
 
-    // Candidate movement amount (px)
     const travel = 40 + attempts * 14;
 
-    // Pick a direction (x and y) without leaving the viewport
     let dx = (Math.random() - 0.5) * 2;
     let dy = (Math.random() - 0.5) * 2;
 
@@ -229,7 +266,6 @@ function burstHearts() {
     let newX = Math.round(btnRect.left - wrapRect.left + dx * travel);
     let newY = Math.round(btnRect.top - wrapRect.top + dy * travel);
 
-    // Clamp within the wrapper bounds (which itself stays in view)
     const margin = 4;
     newX = Math.max(margin, Math.min(newX, wrapRect.width - btnW - margin));
     newY = Math.max(margin, Math.min(newY, wrapRect.height - btnH - margin));
@@ -237,66 +273,52 @@ function burstHearts() {
     madButton.style.position = 'absolute';
     madButton.style.left = newX + 'px';
     madButton.style.top = newY + 'px';
-
-    // Slight playful tilt
     madButton.style.transform = `rotate(${(Math.random() - 0.5) * 12}deg)`;
   }
 
-  // Desktop: trigger on mouse enter / click attempt
   function onDesktopMove(event) {
     const btnRect = madButton.getBoundingClientRect();
     const padX = 8;
     const padY = 8;
-    // Only dodge when the cursor is actually near/over the button
     if (
       event.clientX >= btnRect.left - padX &&
       event.clientX <= btnRect.right + padX &&
       event.clientY >= btnRect.top - padY &&
       event.clientY <= btnRect.bottom + padY
     ) {
-      moveAway(event);
+      moveAway();
     }
   }
 
-  // Touch: dodge on touchstart before the click could register
-  function onTouchStart(event) {
-    event.preventDefault();
-    moveAway(event);
-  }
-
-  // Suppress real activation
   madButton.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    moveAway(event);
+    moveAway();
   });
 
-  // Add listeners (guard for environments lacking old APIs)
   if (window.PointerEvent) {
     madButton.addEventListener(
       'pointerdown',
       (event) => {
         if (event.pointerType === 'touch') {
           event.preventDefault();
-          moveAway(event);
+          moveAway();
         }
       },
       { passive: false }
     );
 
-    madButton.addEventListener(
-      'pointerenter',
-      (event) => {
-        if (event.pointerType === 'mouse') onDesktopMove(event);
-      }
-    );
+    madButton.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') onDesktopMove(event);
+    });
   } else {
-    // Fallback for older browsers
     madButton.addEventListener('mouseenter', onDesktopMove);
-    madButton.addEventListener('touchstart', onTouchStart, { passive: false });
+    madButton.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveAway();
+    }, { passive: false });
   }
 
-  // Keep the button reachable when the window resizes
   window.addEventListener('resize', () => {
     madButton.style.position = '';
     madButton.style.left = '';
